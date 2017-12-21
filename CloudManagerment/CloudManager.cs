@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+
 using Clouder;
+
+using CloudManagerment.Connect2PHP;
 using CloudManagerment.DTO;
+using CloudManagerment.Model;
+
 using CloudObject;
 using CloudObject.EventHandler;
-using System.Net;
-using HttpLib;
+
 using Newtonsoft.Json;
-using System.IO;
-using System.Threading;
-using CloudManagerment.Model;
-using CloudManagerment.Connect2PHP;
+
 using OneDrive;
 
 namespace CloudManagerment
@@ -21,7 +23,7 @@ namespace CloudManagerment
     public static class CloudManager
     {
         private static readonly IList<Cloudbase> Clouds = new List<Cloudbase>();
-        
+
         private static UserInfo userInfo = new UserInfo();
 
         /// <summary>
@@ -35,14 +37,14 @@ namespace CloudManagerment
             try
             {
                 Dictionary<string, string> postData = new Dictionary<string, string>
-                {
-                    {"email", username},
-                    {"password", password}
-                };
-                string response = Connect2PHP.ConnectPHP.Instence().GetUserInfo(postData);
+                                                      {
+                                                          {"email", username},
+                                                          {"password", password}
+                                                      };
+                string response = ConnectPHP.Instence().GetUserInfo(postData);
                 Dictionary<string, string> dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
-                userInfo.UserEmail = dic["email"].ToString();
-                userInfo.UserToken = dic["token"].ToString();
+                userInfo.UserEmail = dic["email"];
+                userInfo.UserToken = dic["token"];
             }
             catch (Exception e)
             {
@@ -103,19 +105,19 @@ namespace CloudManagerment
         /// <returns></returns>
         private static Cloudbase CreateCloud(DriveList item)
         {
-            Cloudbase cloudclass = new OneDriveManager()
-            {
-                CloudId = Guid.NewGuid(),
-                Cloud = new Cloud
-                {
-                    CloudDriveId = item.Id,
-                    CloudEmail = item.Email,
-                    CloudService = item.Service,
-                    CloudToken = item.Token,
-                    CloudExpiresAt = item.ExpiresAt,
-                    CloudExpiresIn = item.ExpiresIn
-                }
-            };
+            Cloudbase cloudclass = new OneDriveManager
+                                   {
+                                       CloudId = Guid.NewGuid(),
+                                       Cloud = new Cloud
+                                               {
+                                                   CloudDriveId = item.Id,
+                                                   CloudEmail = item.Email,
+                                                   CloudService = item.Service,
+                                                   CloudToken = item.Token,
+                                                   CloudExpiresAt = item.ExpiresAt,
+                                                   CloudExpiresIn = item.ExpiresIn
+                                               }
+                                   };
             return cloudclass;
         }
 
@@ -157,18 +159,23 @@ namespace CloudManagerment
         {
             var cloud = GetCloud(cloudid);
             RefreshCloudToken(cloudid);
-            
+
             var cancel = new CancellationTokenSource();
             var token = cancel.Token;
-            var result = Task.Factory.StartNew(()=>
-            {
-                token.ThrowIfCancellationRequested();
-                return cloud?.Start(source, target, operaType);
-            }, token);
+            var result = Task.Factory.StartNew(() =>
+                                               {
+                                                   token.ThrowIfCancellationRequested();
+                                                   return cloud?.Start(source, target, operaType);
+                                               },
+                                               token);
             if (result.Result.Result)
             {
-                TaskManagement.AddTask(Path.Combine(source.FilePath, source.FileName), result, cancel, target, 0,
-                    cloudid); 
+                TaskManagement.AddTask(Path.Combine(source.FilePath, source.FileName),
+                                       result,
+                                       cancel,
+                                       target,
+                                       0,
+                                       cloudid);
                 return result.Result;
             }
             return result.Result;
