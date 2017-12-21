@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <!--日志文件目录-->
+  <LogPath key="LogPath" value="C:\Users\xiangbao\Desktop\Log\imobie_wcf.txt"/>
+  <ChacheBlockCout key="ChacheBlockCout" value="10"/>
+  <ProcessUrl key="ProcessUrl" value="ws://drive.imobie.local:1611"/>
+</root>

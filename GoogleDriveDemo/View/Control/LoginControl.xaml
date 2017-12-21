@@ -1,0 +1,87 @@
+﻿ <UserControl x:Class="GoogleDriveDemo.View.Control.LoginControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GoogleDriveDemo.View.Control"
+             mc:Ignorable="d" 
+             Loaded="Window_OnLoad"
+             Height="600" Width="1000">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10" FontSize="30">House of clouds</TextBlock>
+            <StackPanel>
+                <WrapPanel>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="button" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="Login_Google"
+                BorderThickness="0" Padding="0" Background="Transparent">
+                            <Image Source="/Resource/Image/btn_google_sign-in.png" Stretch="UniformToFill"/>
+                        </Button>
+                        <Button Width="206" Height="46" Margin="20" Click="Clear_Auth">Clear Auth</Button>
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <Button x:Name="onedrive" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="Login_OneDrive"
+                BorderThickness="0" Padding="0" Background="Transparent">
+                            <Image Source="/Resource/Image/btn_google_sign-in.png" Stretch="UniformToFill"/>
+                        </Button>
+                        <Button Width="206" Height="46" Margin="20" Click="Clear_OneDrive_Auth">Clear OneDriveAuth</Button>
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <Button x:Name="dropbox" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="Login_DropBox"
+                BorderThickness="0" Padding="0" Background="Transparent">
+                            <Image Source="/Resource/Image/btn_google_sign-in.png" Stretch="UniformToFill"/>
+                        </Button>
+                        <Button Width="206" Height="46" Margin="20" Click="Clear_DropBox_Auth">Clear DropBoxAuth</Button>
+                    </StackPanel>
+
+                </WrapPanel>
+
+                <WrapPanel>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="gmail" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="Login_Gmail"
+                BorderThickness="0" Padding="0" Background="Transparent">
+                            <Image Source="/Resource/Image/btn_google_sign-in.png" Stretch="UniformToFill"/>
+                        </Button>
+                        <Button Width="206" Height="46" Margin="20" Click="Clear_GmailAuth">Clear GmailAuth</Button>
+                    </StackPanel>
+                    
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="facebook" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="Login_Facebook"
+                BorderThickness="0" Padding="0" Background="Transparent">
+                            <Image Source="/Resource/Image/btn_google_sign-in.png" Stretch="UniformToFill"/>
+                        </Button>
+                        <Button Width="206" Height="46" Margin="20" Click="Clear_Facebook">Clear Facebook</Button>
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="box" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="Login_box" BorderThickness="0" Padding="0" Background="Transparent">
+                            <Image Source="/Resource/Image/btn_google_sign-in.png" Stretch="UniformToFill"/>
+                        </Button>
+                        <Button Width="206" Height="46" Margin="20" Click="Clear_Box">Clear Box</Button>
+                    </StackPanel>
+                    
+                </WrapPanel>
+
+
+
+                <WrapPanel>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="instagram" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="Login_Instagram"
+                BorderThickness="0" Padding="0" Background="Transparent">
+                            <Image Source="/Resource/Image/btn_google_sign-in.png" Stretch="UniformToFill"/>
+                        </Button>
+                        <Button Width="206" Height="46" Margin="20" Click="Clear_Instagram">Clear Instagram</Button>
+                    </StackPanel>
+
+              
+
+                </WrapPanel>
+
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <upload key="ONEDRIVE" value="327680"/>
+  <upload key="GOOGLE" value="25"/>
+  <upload key="DROPBOX" value="131072"/>
+  <upload key="BOX" value="25"/>
+  <upload key="GMAIL" value="25"/>
+  <upload key="INSTAGRAM" value="25"/>
+  <upload key="ICLOUD" value="25"/>
+  <upload key="FACEBOOK" value="25"/>
+</root>

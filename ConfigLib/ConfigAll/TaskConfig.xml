@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <!--任务列表绿色安全值-->
+  <Task key="GreenTaskCount" value="16"/>
+  <!--任务列表最大值，超过了就会失败-->
+  <Task key="MaxTaskCount" value="20"/>
+  <!--下载任务数-->
+  <Task key="LoadTaskCount" value="8"/>
+  <!--上传任务数-->
+  <Task key="UploadTaskCount" value="16"/>
+</root>
