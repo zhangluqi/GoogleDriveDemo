@@ -20,10 +20,6 @@ namespace CloudManagerment
 {
     public static class CloudManager
     {
-
-
-
-
         private static readonly IList<Cloudbase> Clouds = new List<Cloudbase>();
         
         private static UserInfo userInfo = new UserInfo();
