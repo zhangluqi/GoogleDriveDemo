@@ -25,15 +25,17 @@ namespace OneDrive.OneDriveOperation
              * https://graph.microsoft.com/v1.0/me/drive/items/1C1370877CDEA235!105/children
              * Authorization bearer token
              */
-            if (string.IsNullOrEmpty(fileId))
-            {
-                Log.WriteLog("OneDrive :  Create target folder parent is null.");
-                return null;
-            }
+
             if (string.IsNullOrEmpty(token))
             {
                 Log.WriteLog("OneDrive :  token is null.");
                 return null;
+            }
+
+            if (string.IsNullOrEmpty(fileId))
+            {
+                Log.WriteLog("OneDrive :  Create target folder parent is null.");
+                fileId = "root";
             }
             
             string hostURL = "graph.microsoft.com";

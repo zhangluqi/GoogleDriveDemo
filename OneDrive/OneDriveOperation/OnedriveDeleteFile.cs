@@ -20,7 +20,10 @@ namespace OneDrive.OneDriveOperation
         /// <returns></returns>
         public bool DeleteFileOrFolder<T>( T t, string fileId)
         {
-            bool deleteResult = false;
+            if (string.IsNullOrEmpty(fileId))
+            {
+                return false;
+            }
             Log.WriteLog("Search onedrive folder content.");
             string token = t as string;
             string authContent = "bearer " + token;
@@ -33,23 +36,22 @@ namespace OneDrive.OneDriveOperation
             };
             NetClient netclient = new NetClient(headers);
             string requestUrl = "/v1.0/me/drive/items/" + fileId;
-            string jsonContent = "";
+            
             try
             {
-                jsonContent = netclient.DELETE("graph.microsoft.com", requestUrl);
-                deleteResult = true;
+                netclient.DELETE("graph.microsoft.com", requestUrl);
             }
             catch (WebException ex)
             {
-                jsonContent = "";
                 Log.WriteLog("delete OneDrive folder webexception:" + ex.Message);
+                return false;
             }
             catch (Exception ex)
             {
-                jsonContent = "";
                 Log.WriteLog("Search OneDrive folder content exception:" + ex.Message);
+                return false;
             }
-            return deleteResult;
+            return true;
         }
     }
 }

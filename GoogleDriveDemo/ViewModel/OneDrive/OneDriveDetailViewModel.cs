@@ -24,18 +24,11 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
         private ObservableCollection<FileEntity> _detailVM = new ObservableCollection<FileEntity>();
         public ObservableCollection<FileEntity> DetailVM
         {
-            get
-            {
-                return _detailVM;
-            }
-
-            set
-            {
-                _detailVM = value;
-            }
+            get { return _detailVM; }
+            set { _detailVM = value; }
         }
 
-        public Cloudbase oneDriveCloud;
+        public Cloudbase oneDriveCloud = new OneDriveManager();
 
         public ProgrecessVM Progrecess
         {
@@ -70,7 +63,7 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
                 {
                     if (item != null)
                     {
-                        FileEntity fileEntity = new FileEntity()
+                        FileEntity fileEntity = new FileEntity
                         {
                             ParentID = item.ParentId,
                             FileId = item.FileId,
@@ -99,6 +92,33 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
                 }
             }
         }
+
+        public void Create(string parentID)
+        {
+            CloudManager.CreateFolder(oneDriveCloud.CloudId, parentID, "aosdiosaido");//.CreateFolder(parentID, "testtttt");
+        }
+
+        public void Delete(string fileId)
+        {
+            CloudManager.Delete(oneDriveCloud.CloudId, fileId);
+        }
+
+        public async void Load(FileEntity fileId, string fileName, long fileSize)
+        {
+            OneDriveManager oneDrive = new OneDriveManager();
+            oneDrive.Progress += OneDrive_Progress;
+            oneDrive.Exception += OneDrive_Exception;
+            CloudObject.FileInformation f = new CloudObject.FileInformation
+            {
+                FileName = fileId.FileName,
+                FileId = fileId.FileId,
+                FileSize = long.Parse(fileId.FileSize),
+                IsFolder = fileId.IsFile,
+                ParentId = fileId.ParentID
+            };
+            bool isSuccess = await oneDrive.Start(f, @"E:\asd", Clouder.OperaType.DownLoad);
+        }
+
 
 
         public void Stop()
@@ -143,21 +163,7 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
         /// <summary>
         /// 下载文件
         /// </summary>
-        public async void Load(FileEntity fileId, string fileName, long fileSize)
-        {
-            OneDriveManager oneDrive = new OneDriveManager();
-            oneDrive.Progress += OneDrive_Progress;
-            oneDrive.Exception += OneDrive_Exception;
-            CloudObject.FileInformation f = new CloudObject.FileInformation
-            {
-                FileName = fileId.FileName,
-                FileId = fileId.FileId,
-                FileSize = long.Parse(fileId.FileSize),
-                IsFolder  = fileId.IsFile,
-               ParentId = fileId.ParentID
-            };
-            bool isSuccess = await oneDrive.Start(f,@"E:\asd",Clouder.OperaType.DownLoad);
-        }
+        
 
         private void OneDrive_Exception(CloudObject.EventHandler.ExceptionEventHandler obj)
         {
@@ -172,17 +178,9 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
             Progrecess.Result = string.Format("{0:N2} %", rate);
         }
 
-        public void Delete(string fileId)
-        {
-            OneDriveManager oneDrive = new OneDriveManager();
-            oneDrive.Delete(fileId);
-        }
 
-        public void Create(string parentID)
-        {
-            OneDriveManager oneDrive = new OneDriveManager();
-            oneDrive.CreateFolder(parentID, "testtttt");
-        }
+
+       
 
         private void FinishedEvent()
         {

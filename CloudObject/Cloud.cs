@@ -12,8 +12,8 @@ namespace CloudObject
 
         public string CloudToken { get; set; }
 
-        public string CloudExpiresAt { get; set; }
+        public DateTime CloudExpiresAt { get; set; }
 
-        public string CloudExpiresIn { get; set; }
+        public int CloudExpiresIn { get; set; }
     }
 }

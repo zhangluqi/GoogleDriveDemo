@@ -78,8 +78,7 @@ namespace GoogleDriveDemo.View.Control.OneDrive
 
         private void Select(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            
-            if(e.NewValue is FileEntity)
+            if (e.NewValue is FileEntity)
             {
                 FileEntity fileEntity = e.NewValue as FileEntity;
                 _parentID = fileEntity.FileId;
@@ -96,9 +95,7 @@ namespace GoogleDriveDemo.View.Control.OneDrive
                 {
                     _detailViewModel.Search(fileEntity);
                 }
-              
             }
-
         }
 
         private void Delete(object sender, RoutedEventArgs e)

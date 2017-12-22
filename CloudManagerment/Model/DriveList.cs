@@ -24,10 +24,10 @@ namespace CloudManagerment.Model
         public string Token { get; set; }
 
         [DataMember(Name = "ExpiresAt")]
-        public string ExpiresAt { get; set; }
+        public DateTime ExpiresAt { get; set; }
 
         [DataMember(Name = "ExpiresIn")]
-        public string ExpiresIn { get; set; }
+        public int ExpiresIn { get; set; }
     }
     #endregion
 }
