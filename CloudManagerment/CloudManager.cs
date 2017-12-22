@@ -4,18 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Clouder;
-
 using CloudManagerment.Connect2PHP;
 using CloudManagerment.DTO;
 using CloudManagerment.Model;
-
 using CloudObject;
 using CloudObject.EventHandler;
-
 using Newtonsoft.Json;
-
 using OneDrive;
 
 namespace CloudManagerment
@@ -32,7 +27,7 @@ namespace CloudManagerment
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public static UserInfo Login(string username, string password)
+        public static void Login(string username, string password)
         {
             try
             {
@@ -45,12 +40,12 @@ namespace CloudManagerment
                 Dictionary<string, string> dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
                 userInfo.UserEmail = dic["email"];
                 userInfo.UserToken = dic["token"];
+                GetCouldList();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
-            return userInfo;
         }
 
         /// <summary>
@@ -78,17 +73,24 @@ namespace CloudManagerment
         /// 将云放在列表里
         /// </summary>
         /// <param name="allCoudList"></param>
-        public static void GetClouds(List<DriveList> allCoudList)
+        private static void GetClouds(List<DriveList> allCoudList)
         {
             if (allCoudList != null && allCoudList.Count > 0)
             {
+                if (Clouds != null && Clouds.Count > 0)
+                {
+                    Clouds.Clear();
+                }
                 try
                 {
                     foreach (var item in allCoudList)
                     {
                         Cloudbase cloudclass;
                         cloudclass = CreateCloud(item);
-                        Clouds.Add(cloudclass);
+                        if (cloudclass != null)
+                        {
+                            Clouds.Add(cloudclass);
+                        }
                     }
                 }
                 catch (Exception e)
@@ -105,19 +107,26 @@ namespace CloudManagerment
         /// <returns></returns>
         private static Cloudbase CreateCloud(DriveList item)
         {
-            Cloudbase cloudclass = new OneDriveManager
-                                   {
-                                       CloudId = Guid.NewGuid(),
-                                       Cloud = new Cloud
-                                               {
-                                                   CloudDriveId = item.Id,
-                                                   CloudEmail = item.Email,
-                                                   CloudService = item.Service,
-                                                   CloudToken = item.Token,
-                                                   CloudExpiresAt = item.ExpiresAt,
-                                                   CloudExpiresIn = item.ExpiresIn
-                                               }
-                                   };
+            Cloudbase cloudclass = null;
+            switch (item.Service)
+            {
+                case "micosoft":
+                    cloudclass = new OneDriveManager();
+                    break;
+            }
+            if (cloudclass != null)
+            {
+                cloudclass.CloudId = Guid.NewGuid();
+                cloudclass.Cloud = new Cloud
+                {
+                   CloudDriveId = item.Id,
+                   CloudEmail = item.Email,
+                   CloudService = item.Service,
+                   CloudToken = item.Token,
+                   CloudExpiresAt = item.ExpiresAt,
+                   CloudExpiresIn = item.ExpiresIn
+                };
+            }
             return cloudclass;
         }
 
@@ -145,16 +154,71 @@ namespace CloudManagerment
             }
         }
 
-        private static void Cloudclass_Exception(ExceptionEventHandler obj)
+        /// <summary>
+        /// 获取所有云的列表
+        /// </summary>
+        /// <returns></returns>
+        public static List<Cloudbase> GetCloudList()
         {
-            OnException(obj);
+            List<Cloudbase> list = new List<Cloudbase>();
+            foreach (var item in Clouds)
+            {
+                if (item != null)
+                {
+                    list.Add(item);
+                }
+            }
+            return list;
         }
 
-        private static void Cloudclass_Progress(ProgressEventhandler obj)
+        /// <summary>
+        /// 搜索文件
+        /// </summary>
+        /// <param name="cloudid"></param>
+        /// <param name="fileid"></param>
+        /// <returns></returns>
+        public static IList<FileInformation> Search(Guid cloudid, string fileid)
         {
-            OnProgress(obj);
+            var cloud = GetCloud(cloudid);
+            RefreshCloudToken(cloudid);
+            return cloud.Search(fileid);
         }
 
+        /// <summary>
+        /// 创建文件
+        /// </summary>
+        /// <param name="cloudid"></param>
+        /// <param name="fileid"></param>
+        /// <param name="foldername"></param>
+        /// <returns></returns>
+        public static string CreateFolder(Guid cloudid, string fileid, string foldername)
+        {
+            var cloud = GetCloud(cloudid);
+            RefreshCloudToken(cloudid);
+            return cloud.CreateFolder(fileid, foldername);
+        }
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="cloudid"></param>
+        /// <param name="fileid"></param>
+        /// <returns></returns>
+        public static bool Delete(Guid cloudid, string fileid)
+        {
+            var cloud = GetCloud(cloudid);
+            RefreshCloudToken(cloudid);
+            return cloud.Delete(fileid);
+        }
+
+        /// <summary>
+        /// 开始下载 和 上传
+        /// </summary>
+        /// <param name="cloudid"></param>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="operaType"></param>
+        /// <returns></returns>
         public static Task<bool> Start(Guid cloudid, FileInformation source, string target, OperaType operaType)
         {
             var cloud = GetCloud(cloudid);
@@ -181,44 +245,42 @@ namespace CloudManagerment
             return result.Result;
         }
 
+        /// <summary>
+        /// 暂停下载
+        /// </summary>
+        /// <param name="cloudid"></param>
+        /// <param name="taskid"></param>
         public static void Pause(Guid cloudid, string taskid)
         {
             var task = TaskManagement.GetOneTask(Guid.Parse(taskid));
             task.CancelSignal.Cancel();
-            //var cloud = GetCloud(cloudid);
-            //cloud?.Pause(taskid);
         }
 
+        /// <summary>
+        /// 取消下载
+        /// </summary>
+        /// <param name="cloudid"></param>
+        /// <param name="taskid"></param>
+        /// <returns></returns>
         public static Task<bool> Cancel(Guid cloudid, string taskid)
         {
             var cloud = GetCloud(cloudid);
             return cloud.Cancel(taskid);
         }
 
-        public static string CreateFolder(Guid cloudid, string fileid, string foldername)
-        {
-            var cloud = GetCloud(cloudid);
-            RefreshCloudToken(cloudid);
-            return cloud.CreateFolder(fileid, foldername);
-        }
-
-        public static bool Delete(Guid cloudid, string fileid)
-        {
-            var cloud = GetCloud(cloudid);
-            RefreshCloudToken(cloudid);
-            return cloud.Delete(fileid);
-        }
-
-        public static IList<FileInformation> Search(Guid cloudid, string fileid)
-        {
-            var cloud = GetCloud(cloudid);
-            RefreshCloudToken(cloudid);
-            return cloud.Search(fileid);
-        }
-
         public static event Action<ExceptionEventHandler> Exception;
 
         public static event Action<ProgressEventhandler> Progress;
+
+        private static void Cloudclass_Exception(ExceptionEventHandler obj)
+        {
+            OnException(obj);
+        }
+
+        private static void Cloudclass_Progress(ProgressEventhandler obj)
+        {
+            OnProgress(obj);
+        }
 
         private static void OnException(ExceptionEventHandler obj)
         {

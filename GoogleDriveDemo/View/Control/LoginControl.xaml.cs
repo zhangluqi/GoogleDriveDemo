@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Clouder;
 //using GoogleDriveDemo.Model.Instagram;
 using GoogleDriveDemo.Model.Amazon;
 using CloudManagerment;
@@ -39,14 +40,15 @@ namespace GoogleDriveDemo.View.Control
 
         private void Window_OnLoad(object sender, RoutedEventArgs e)
         {
-            CloudManagerment.CloudManager.Progress += CloudManager_Progress;
-            CloudManagerment.CloudManager.Exception += CloudManager_Exception;
-            var cloud = CloudManagerment.CloudManager.Login("zhangluqi@outlook.com", "12345678");
+            CloudManager.Progress += CloudManager_Progress;
+            CloudManager.Exception += CloudManager_Exception;
+            CloudManager.Login("zhangluqi@outlook.com", "12345678");
+            List<Cloudbase> list = CloudManager.GetCloudList();
         }
 
         private void CloudManager_Exception(ExceptionEventHandler obj)
         {
-            
+             
         }
 
         private void CloudManager_Progress(ProgressEventhandler obj)
@@ -56,17 +58,17 @@ namespace GoogleDriveDemo.View.Control
 
         private void Login_Google(object sender, RoutedEventArgs e)
         {
-            _loginViewModel = new LoginViewModel();
-            _loginViewModel.Login();
+            //_loginViewModel = new LoginViewModel();
+            //_loginViewModel.Login();
         }
 
         private void Clear_Auth(object sender, RoutedEventArgs e)
         {
-            _loginViewModel = new LoginViewModel();
-            if (_loginViewModel != null)
-            {
-                _loginViewModel.ClearAuthRecord();
-            }
+            //_loginViewModel = new LoginViewModel();
+            //if (_loginViewModel != null)
+            //{
+            //    _loginViewModel.ClearAuthRecord();
+            //}
         }
 
         /// <summary>
@@ -76,79 +78,79 @@ namespace GoogleDriveDemo.View.Control
         /// <param name="e"></param>
         private void Login_OneDrive(object sender, RoutedEventArgs e)
         {
-            _loginViewModel = new OneDriveLogin();
-            _loginViewModel.Login();
+            //_loginViewModel = new OneDriveLogin();
+            //_loginViewModel.Login();
         }
 
         private void Clear_OneDrive_Auth(object sender, RoutedEventArgs e)
         {
-            if (_loginViewModel == null)
-            {
-                _loginViewModel = new OneDriveLogin();
-            }
-            _loginViewModel.ClearAuthRecord();
+            //if (_loginViewModel == null)
+            //{
+            //    _loginViewModel = new OneDriveLogin();
+            //}
+            //_loginViewModel.ClearAuthRecord();
             
         }
 
         private void Login_DropBox(object sender, RoutedEventArgs e)
         {
-            _loginViewModel = new DropboxLogin();
-            _loginViewModel.Login();
+            //_loginViewModel = new DropboxLogin();
+            //_loginViewModel.Login();
         }
 
         private void Clear_DropBox_Auth(object sender, RoutedEventArgs e)
         {
-            if(_loginViewModel != null)
-            {
-                _loginViewModel.ClearAuthRecord();
-            }
+            //if(_loginViewModel != null)
+            //{
+            //    _loginViewModel.ClearAuthRecord();
+            //}
         }
 
         private void Login_Gmail(object sender, RoutedEventArgs e)
         {
-            _loginViewModel = new GmailLogin();
-            _loginViewModel.Login();
+            //_loginViewModel = new GmailLogin();
+            //_loginViewModel.Login();
 
         }
 
         private void Clear_GmailAuth(object sender, RoutedEventArgs e)
         {
-            if (_loginViewModel != null)
-            {
-                _loginViewModel.ClearAuthRecord();
-            }
+            //if (_loginViewModel != null)
+            //{
+            //    _loginViewModel.ClearAuthRecord();
+            //}
         }
 
         private void Login_Facebook(object sender, RoutedEventArgs e)
         {
-            _loginViewModel = new FacebookLogin();
-            _loginViewModel.Login();
+            //_loginViewModel = new FacebookLogin();
+            //_loginViewModel.Login();
         }
 
         private void Clear_Facebook(object sender, RoutedEventArgs e)
         {
-            if (_loginViewModel == null)
-            {
-                _loginViewModel = new BoxLogin();
-            }
-                _loginViewModel = new FacebookLogin();
-                _loginViewModel.ClearAuthRecord();
+            //if (_loginViewModel == null)
+            //{
+            //    _loginViewModel = new BoxLogin();
+            //}
+            //    _loginViewModel = new FacebookLogin();
+            //    _loginViewModel.ClearAuthRecord();
             
         }
 
         private void Login_box(object sender, RoutedEventArgs e)
         {
-            _loginViewModel = new BoxLogin();
-            _loginViewModel.Login();
+            //_loginViewModel = new BoxLogin();
+            //_loginViewModel.Login();
         }
 
         private void Clear_Box(object sender, RoutedEventArgs e)
         {
-            if (_loginViewModel == null)
-            {
-                _loginViewModel = new BoxLogin();
-                _loginViewModel.ClearAuthRecord();
-            }
+            //if (_loginViewModel == null)
+            //{
+            //    _loginViewModel = new BoxLogin();
+            //    _loginViewModel.ClearAuthRecord();
+            //}
         }
 
         private void Clear_Instagram(object sender, RoutedEventArgs e)

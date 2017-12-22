@@ -13,6 +13,8 @@ using System.Windows.Forms;
 using CloudObject;
 using OneDrive;
 using OnedriveDeleteFile = OneDrive.OneDriveOperation.OnedriveDeleteFile;
+using CloudManagerment;
+using CloudObject.EventHandler;
 
 namespace GoogleDriveDemo.ViewModel.OneDrive
 {
@@ -51,6 +53,7 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
         private OneDriveFileUpload _oneDriveFileUpload;
         private OneDriveFileLoad _oneDriveFileLoad;
 
+
         public void Search(FileEntity selectedfileEntity)
         {
             string fileId = selectedfileEntity != null ? selectedfileEntity.FileId : null;
@@ -76,7 +79,6 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
                         System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
                             //root目录
-
                             if (selectedfileEntity == null)
                             {
                                 _detailVM.Add(fileEntity);
@@ -95,6 +97,7 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
                 }
             }
         }
+
 
         public void Stop()
         {
@@ -134,6 +137,7 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
             };
             bool isSuccess = await oneDrive.Start(f, parentID, Clouder.OperaType.UpLoad);
         }
+
         /// <summary>
         /// 下载文件
         /// </summary>
@@ -202,6 +206,17 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
             rate = rate > 100 ? 100 : rate;
             Progrecess.Rate = rate;
             Progrecess.Result = string.Format("{0:N2} %", rate);
+        }
+
+
+        private void CloudManager_Exception(ExceptionEventHandler obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CloudManager_Progress(ProgressEventhandler obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

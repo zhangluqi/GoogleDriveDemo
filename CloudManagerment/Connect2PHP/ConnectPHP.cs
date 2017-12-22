@@ -87,7 +87,7 @@ namespace CloudManagerment.Connect2PHP
                 clientNet.Headers.Add("Authorization", "Bearer " + token);
                 Stream st = clientNet.OpenRead(url1);
                 StreamReader sr = new StreamReader(st);
-                string res = sr.ReadToEnd();
+                responseData = sr.ReadToEnd();
             }
             catch (Exception e)
             {
