@@ -114,9 +114,6 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
 
         public async void Load(FileEntity fileId, string fileName, long fileSize)
         {
-            OneDriveManager oneDrive = new OneDriveManager();
-            oneDrive.Progress += OneDrive_Progress;
-            oneDrive.Exception += OneDrive_Exception;
             CloudObject.FileInformation f = new CloudObject.FileInformation
             {
                 FileName = fileId.FileName,
@@ -125,7 +122,8 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
                 IsFolder = fileId.IsFile,
                 ParentId = fileId.ParentID
             };
-            bool isSuccess = await oneDrive.Start(f, @"E:\asd", Clouder.OperaType.DownLoad);
+            //bool isSuccess = await oneDrive.Start(f, @"E:\asd", Clouder.OperaType.DownLoad);
+            bool isSuccess = await CloudManager.Start(oneDriveCloud.CloudId, f, @"C:\Users\zhang\Desktop\asd", Clouder.OperaType.DownLoad);
         }
 
 
@@ -187,9 +185,6 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
             Progrecess.Result = string.Format("{0:N2} %", rate);
         }
 
-
-
-       
 
         private void FinishedEvent()
         {

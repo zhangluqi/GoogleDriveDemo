@@ -57,7 +57,7 @@ namespace GoogleDriveDemo.View.Control.OneDrive
             {
                 foreach (var fileEntity in fileList)
                 {
-                    if (fileEntity.IsFile && fileEntity.IsChecked)
+                    if (!fileEntity.IsFile && fileEntity.IsChecked)
                     {
                         _detailViewModel.Load(fileEntity, fileEntity.FileName, long.Parse(fileEntity.FileSize));
                     }

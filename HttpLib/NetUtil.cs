@@ -16,20 +16,17 @@ namespace HttpLib
     {
         public async Task<bool> LoadAsync(LoadEntity loadEntity, string target, IDictionary<string, string> fixedHeader, Action<long, long, string> process)
         {
-            bool loadResult = true;
             long offset = 0;         // cursor location for updating the Range header.
             long newFileSize = 0;
             long fileSize = loadEntity.FileSize;
             Log.WriteLog("fileSize:" + fileSize);
             string url = loadEntity.Url;
             string taskId = loadEntity.TaskId;
+
             try
             {
                 //获取文件大小
-                if (fileSize == 0)
-                {
-                    fileSize = Size(url);
-                }
+                if (fileSize == 0){ fileSize = Size(url); }
                 
                 if (File.Exists(target))
                 {
@@ -88,6 +85,7 @@ namespace HttpLib
                                    speed = (chunkSize / 1024) / time;
                                    Console.WriteLine(speed + "KB/S");
                                 }
+                                Console.WriteLine(progress + "B");
                                 process?.Invoke(progress, speed, taskId);
                             }
                         }
@@ -98,11 +96,10 @@ namespace HttpLib
             catch(Exception ex)
             {
                 process?.Invoke(0,0,ex.Message);
-                loadResult = false;
                 Log.WriteLog("load googledrive file:"+ex.Message);
                 throw new Exception(ex.Message);
             }
-            return loadResult;
+            return true;
         }
 
         /// <summary>

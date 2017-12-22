@@ -145,11 +145,8 @@ namespace OneDrive
 
         private void O_ProgressEvent(long arg1, long arg2, string arg3)
         {
-            if (arg2 > 0)
-            {
-                Debug.WriteLine($"{arg1}  / {arg2}" + "=======" + arg3);
-                OnProgress(new ProgressEventhandler(CloudId.ToString(), arg3, (decimal)arg1 / arg2, 0));
-            }        }
+            OnProgress(new ProgressEventhandler(CloudId.ToString(), arg3, arg1, arg2));
+        }
  
         public override Task<bool> SyncCloud(string sourceCloud, string targetCloud, string sourceFile, string targetFile)
         {

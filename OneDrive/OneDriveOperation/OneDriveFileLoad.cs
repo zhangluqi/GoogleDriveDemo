@@ -86,40 +86,44 @@ namespace OneDrive.OneDriveOperation
 
         public async Task<bool> DownloadFile<T>(T t, FileInformation source, string targetPath, string taskId)
         {
-            string _token = t as string;
-            targetPath = @"C:\Users\zhang\Desktop\asd";
+            string token = t as string;
             if (!Directory.Exists(targetPath))
             {
                 Directory.CreateDirectory(targetPath);
             }
             string savePath = Path.Combine(targetPath, source.FileName);
             string downLoadUrl = "";
-            string host = "graph.microsoft.com";
-            string path = "/v1.0/me/drive/items/";
-            path = Path.Combine(path, source.FileId);
-            NetClient netClient = new NetClient();
-            netClient.AddHeader("SampleID", "uwp-csharp-connect-sample");
-            netClient.AddHeader("SdkVersion", "Graph-dotnet-1.6.2");
-            netClient.AddHeader("Authorization", string.Format("Bearer {0}", _token));
-            string result = netClient.GET(host, path, true);
-            IDictionary<string, Object> driveItem = JsonConvert.DeserializeObject<IDictionary<string, Object>>(result);
-            Object obj = "";
-            driveItem.TryGetValue("@microsoft.graph.downloadUrl", out obj);
-            downLoadUrl = obj.ToString();
-
-            LoadEntity loadEntity = new LoadEntity()
+            try
             {
-                Url = downLoadUrl,
-                FileSize = source.FileSize,
-                ChunkSize = 1024 * 1024,
-                TaskId = taskId
-            };
+                string host = "graph.microsoft.com";
+                string path = "/v1.0/me/drive/items/";
+                path = Path.Combine(path, source.FileId);
+                NetClient netClient = new NetClient();
+                netClient.AddHeader("SampleID", "uwp-csharp-connect-sample");
+                netClient.AddHeader("SdkVersion", "Graph-dotnet-1.6.2");
+                netClient.AddHeader("Authorization", string.Format("Bearer {0}", token));
+                string result = netClient.GET(host, path, true);
+                IDictionary<string, Object> driveItem = JsonConvert.DeserializeObject<IDictionary<string, Object>>(result);
+                Object obj = "";
+                driveItem.TryGetValue("@microsoft.graph.downloadUrl", out obj);
+                downLoadUrl = obj.ToString();
 
-            NetUtil netUtil = new NetUtil();
-            //return true;
-            bool isSuccess = await netUtil.LoadAsync(loadEntity, savePath, null, ProgressEvent);
+                LoadEntity loadEntity = new LoadEntity()
+                {
+                    Url = downLoadUrl,
+                    FileSize = source.FileSize,
+                    ChunkSize = 1024 * 1024,
+                    TaskId = taskId
+                };
 
-            return isSuccess;
+                NetUtil netUtil = new NetUtil();
+                bool isSuccess = await netUtil.LoadAsync(loadEntity, savePath, null, ProgressEvent);
+                return isSuccess;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         #region Events
