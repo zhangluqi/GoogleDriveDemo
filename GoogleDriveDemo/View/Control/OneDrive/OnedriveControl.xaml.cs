@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Clouder;
 
 namespace GoogleDriveDemo.View.Control.OneDrive
 {
@@ -25,10 +26,12 @@ namespace GoogleDriveDemo.View.Control.OneDrive
     {
         private OneDriveDetailViewModel _detailViewModel;
         private string _parentID;
-        public OnedriveControl()
+        private Cloudbase cloudbase;
+
+        public OnedriveControl(Cloudbase _cloudbase)
         {
             InitializeComponent();
-            
+            cloudbase = _cloudbase;
         }
 
         private void Window_Load(object sender, RoutedEventArgs e)
@@ -37,6 +40,8 @@ namespace GoogleDriveDemo.View.Control.OneDrive
             fileTree.ItemsSource = _detailViewModel.DetailVM;
             fileListbox.ItemsSource = _detailViewModel.DetailVM;
             Progrecess.DataContext = _detailViewModel.Progrecess;
+            _detailViewModel = new OneDriveDetailViewModel();
+            _detailViewModel.oneDriveCloud = cloudbase;
             _detailViewModel.Search(null);
         }
         

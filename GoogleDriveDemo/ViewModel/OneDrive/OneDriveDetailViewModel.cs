@@ -15,6 +15,7 @@ using OneDrive;
 using OnedriveDeleteFile = OneDrive.OneDriveOperation.OnedriveDeleteFile;
 using CloudManagerment;
 using CloudObject.EventHandler;
+using Clouder;
 
 namespace GoogleDriveDemo.ViewModel.OneDrive
 {
@@ -33,6 +34,8 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
                 _detailVM = value;
             }
         }
+
+        public Cloudbase oneDriveCloud;
 
         public ProgrecessVM Progrecess
         {
@@ -60,8 +63,7 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
             string parentId = selectedfileEntity != null ? selectedfileEntity.ParentID : "root";
             
             IList<FileInformation> listFileInfo = null;
-            OneDriveManager oneDrive = new OneDriveManager();
-            listFileInfo = oneDrive.Search(parentId);
+            listFileInfo = CloudManager.Search(oneDriveCloud.CloudId,parentId);
             if (listFileInfo != null && listFileInfo.Count > 0)
             {
                 foreach (var item in listFileInfo)

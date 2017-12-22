@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Clouder;
 
 namespace GoogleDriveDemo.ViewModel.Gmail
 {
@@ -19,7 +20,7 @@ namespace GoogleDriveDemo.ViewModel.Gmail
             throw new NotImplementedException();
         }
 
-        public void Login()
+        public void Login(Cloudbase cloudbase)
         {
             AuthGmail authGmail = new AuthGmail();
             GmailService dropboxClient = authGmail.GetService();

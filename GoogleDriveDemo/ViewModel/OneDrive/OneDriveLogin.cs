@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Clouder;
 
 namespace GoogleDriveDemo.ViewModel.OneDrive
 {
@@ -22,28 +23,12 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
             //测试Amazon
             //AuthAmazon authAmazon = new AuthAmazon();
             //authAmazon.test();
-
-
         }
 
-        public void Login()
+        public void Login(Cloudbase cloudbase)
         {
-            
-                AuthOneDrive authOneDrive = new AuthOneDrive();
-                GraphServiceClient graphClient = authOneDrive.GetAuthenticatedClient();
-                if (graphClient != null)
-                {
-                    ServiceManager.Instence().GraphClient = graphClient;
-
-                    //跳转到文件扫描窗口
-                    UserControl detailControl = new OnedriveControl();
-                    MainWindowManager.Instence().MainVM.MiddleDataControl = detailControl;
-                }
-                else
-                {
-                    MessageBox.Show("Auth onedrive api failed!!!");
-                }
-          
+            UserControl detailControl = new OnedriveControl(cloudbase);
+            MainWindowManager.Instence().MainVM.MiddleDataControl = detailControl;
         }
     }
 }

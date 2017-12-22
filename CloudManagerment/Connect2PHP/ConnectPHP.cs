@@ -116,7 +116,7 @@ namespace CloudManagerment.Connect2PHP
 
                 Stream st = clientNet.OpenRead(url1);
                 StreamReader sr = new StreamReader(st);
-                string res = sr.ReadToEnd();
+                responseData = sr.ReadToEnd();
             }
             catch (Exception e)
             {

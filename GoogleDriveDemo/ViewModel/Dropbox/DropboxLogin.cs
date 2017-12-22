@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Clouder;
 
 namespace GoogleDriveDemo.ViewModel.Dropbox
 {
@@ -19,7 +20,7 @@ namespace GoogleDriveDemo.ViewModel.Dropbox
             throw new NotImplementedException();
         }
 
-        public async void Login()
+        public async void Login(Cloudbase cloudbase)
         {
             AuthDropbox authDropbox = new AuthDropbox();
             DropboxClient dropboxClient =await authDropbox.GetDropboxClient();

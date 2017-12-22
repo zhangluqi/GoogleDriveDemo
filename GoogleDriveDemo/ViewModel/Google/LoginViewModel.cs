@@ -10,12 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Clouder;
 
 namespace GoogleDriveDemo.ViewModel.Google
 {
     public class LoginViewModel: ILogin
     {
-        public void Login()
+        public void Login(Cloudbase cloudbase)
         {
            
                 AuthGoogle authGoogle = new AuthGoogle();

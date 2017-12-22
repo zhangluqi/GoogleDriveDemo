@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Clouder;
 
 namespace GoogleDriveDemo.ViewModel.Facebook
 {
@@ -29,7 +30,7 @@ namespace GoogleDriveDemo.ViewModel.Facebook
           
         }
 
-        public async void Login()
+        public async void Login(Cloudbase cloudbase)
         {
             authFacebook = new AuthFacebook();
             FacebookClient facebookClient = await authFacebook.GetFacebookClient();

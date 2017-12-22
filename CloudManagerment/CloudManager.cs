@@ -110,7 +110,7 @@ namespace CloudManagerment
             Cloudbase cloudclass = null;
             switch (item.Service)
             {
-                case "micosoft":
+                case "microsoft":
                     cloudclass = new OneDriveManager();
                     break;
             }
@@ -151,6 +151,7 @@ namespace CloudManagerment
             if (true) //判断是否过期
             {
                 string response = ConnectPHP.Instence().RefreToken(cloudbase.Cloud.CloudDriveId, userInfo.UserToken);
+                Dictionary<string, string> dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
             }
         }
 

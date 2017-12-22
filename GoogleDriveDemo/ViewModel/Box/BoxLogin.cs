@@ -10,6 +10,7 @@ using GoogleDriveDemo.View.Control.Box;
 using GoogleDriveDemo.Model.Box;
 using GoogleDriveDemo.Util;
 using Box.V2;
+using Clouder;
 
 namespace GoogleDriveDemo.ViewModel.Box
 {
@@ -20,7 +21,7 @@ namespace GoogleDriveDemo.ViewModel.Box
             throw new NotImplementedException();
         }
 
-        async void ILogin.Login()
+        async void ILogin.Login(Cloudbase cloudbase)
         {
             AuthBox authBox = new AuthBox();
             BoxClient boxClient = await authBox.GetBoxClient();

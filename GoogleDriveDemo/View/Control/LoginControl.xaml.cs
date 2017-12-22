@@ -38,12 +38,40 @@ namespace GoogleDriveDemo.View.Control
             InitializeComponent();
         }
 
+        private Cloudbase cloudbase = null;
         private void Window_OnLoad(object sender, RoutedEventArgs e)
         {
             CloudManager.Progress += CloudManager_Progress;
             CloudManager.Exception += CloudManager_Exception;
             CloudManager.Login("zhangluqi@outlook.com", "12345678");
             List<Cloudbase> list = CloudManager.GetCloudList();
+            foreach (var item in list)
+            {
+                if (item != null)
+                {
+                    cloudbase = item;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 登陆OneDrive
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Login_OneDrive(object sender, RoutedEventArgs e)
+        {
+            _loginViewModel = new OneDriveLogin();
+            _loginViewModel.Login(cloudbase);
+        }
+
+        private void Clear_OneDrive_Auth(object sender, RoutedEventArgs e)
+        {
+            //if (_loginViewModel == null)
+            //{
+            //    _loginViewModel = new OneDriveLogin();
+            //}
+            //_loginViewModel.ClearAuthRecord();   
         }
 
         private void CloudManager_Exception(ExceptionEventHandler obj)
@@ -71,26 +99,7 @@ namespace GoogleDriveDemo.View.Control
             //}
         }
 
-        /// <summary>
-        /// 登陆OneDrive
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Login_OneDrive(object sender, RoutedEventArgs e)
-        {
-            //_loginViewModel = new OneDriveLogin();
-            //_loginViewModel.Login();
-        }
 
-        private void Clear_OneDrive_Auth(object sender, RoutedEventArgs e)
-        {
-            //if (_loginViewModel == null)
-            //{
-            //    _loginViewModel = new OneDriveLogin();
-            //}
-            //_loginViewModel.ClearAuthRecord();
-            
-        }
 
         private void Login_DropBox(object sender, RoutedEventArgs e)
         {

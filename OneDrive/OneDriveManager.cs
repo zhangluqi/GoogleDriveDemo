@@ -34,9 +34,6 @@ namespace OneDrive
         public override Guid CloudId { get; set; }
 
         public override Cloud Cloud { get; set; }
-
-        ///临时的
-        private string str = "EwA4A8l6BAAU7p9QDpi/D7xJLwsTgCg3TskyTaQAASPWPeXzTHvQAstGz3F8e2MQm9u7LW1hpGIj/toiIADXrzgjqLbndi9TD3IIujyarCiClUqWuNjzHqzmeRjxZj4kXKSn0MNOvw6bdLucperYkz7AcusSEttvZK5N3NZA7C3T62T51uzOnewSUNpq4Z9VIzAldwAfd/xQNd3KinFgEv8Luv+3ybMszp1r+TXauBsP2PzU8NaYRqC9Cr2Ee/v+ohIh49R1oiIDydlZ+wd7SVXTIuneXKH26VMaMIferN5zsckdmmVQxOd+WSDYspUqzVA+sj00D2E/NSpGaPzGIC7zmfEMoblUuCtxFwL/aeTUATA7cgkf6gdE9VwtqJMDZgAACI4AzOBSNgnfCAILYl3XIn35usx3I0/umZdR73Vk7W+F109cP2L+7nUhbKRQxnPTkcM36lMteTB0pdye+VaJ/EcjODySg89GMcDj5Ixl8+8nc96kY/ekF8pc2Pu9pQpZEmg8/s2OFufjy81zsTB+FHCEAhGXZCsjjW5vphUiPjKOARzk27n6Chh2mchIGqQ2c259T7G+sr7c26xbU0MwMzQq5J/eNdGt6VNcjHk+ezHe/1dP5f0//Vh2RuAqRKnHC46h9O33Detoap6osIcXahzZ+xirWAd4HW5rH6cHzufJcPNgbrK/CoiHQCoVmE0Sb6UAXCzIzh6jQpG41fvujesp1l2LqqXx8FEc/lOVyRLhORjJlFvHITktnxDhdA29bAPmXtsOyo+arzV1Ul7DjQ8VA45sdJgsD16WjL37jxKIZqLmD5Q1eU8MYl4SZQYUO+L5UNgpqZ8tJw0Fkj5Ff2z6SR4pUB91oYCaWMsMKXgcOYsuLMQAXliSAltTXPdKcbkqeTDPeBzVaAyo9/RvD7diJhSnlxSmddrT7Z6mHuyXoLS4PuBMTscxjGGLBVF7PEAz50Wy5MDFhSWBbMpN/HIZT6Tz5hBW7XQxinKbfGcsg0wyma7OeKlgB4WC0mU7OHKP1wRGz1mzAA1I9z7j+tiwCAJBwZKD60l08sx57c4Gm5COI1ET5DBs9pSokWeqBxPwOQI=";
        
         /// <summary>
         /// 创建文件夹，返回创建的文件夹ID
@@ -87,7 +84,7 @@ namespace OneDrive
             OneDriveFileSearch oneDriveFileSearch = new OneDriveFileSearch();
             try
             {
-                fileInfoList = (List<FileInformation>)oneDriveFileSearch.SearchFile(str, fileid);
+                fileInfoList = (List<FileInformation>)oneDriveFileSearch.SearchFile(Cloud.CloudToken, fileid);
             }
             catch (Exception ex)
             {
