@@ -153,13 +153,10 @@ namespace CloudManagerment
                 if (true) //判断是否过期
                 {
                     string response = ConnectPHP.Instence().RefreToken(cloudbase.Cloud.CloudDriveId, userInfo.UserToken);
-                    List<DriveList> dic = JsonConvert.DeserializeObject<List<DriveList>>(response);
-                    foreach (var item in dic)
-                    {
-                        cloudbase.Cloud.CloudToken = item.Token;
-                        cloudbase.Cloud.CloudExpiresAt = item.ExpiresAt;
-                        cloudbase.Cloud.CloudExpiresIn = item.ExpiresIn;
-                    }
+                    Dictionary<string, string> dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+                    cloudbase.Cloud.CloudToken = dic["token"].ToString();
+                    cloudbase.Cloud.CloudExpiresAt = dic["expires_at"].ToString();
+                    cloudbase.Cloud.CloudExpiresIn = dic["expires_in"].ToString();
                 }
             }
         }

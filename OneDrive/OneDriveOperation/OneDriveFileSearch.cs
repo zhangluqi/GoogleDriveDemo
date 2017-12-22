@@ -23,6 +23,10 @@ namespace OneDrive.OneDriveOperation
              * Request URL: https://graph.microsoft.com/v1.0/me/drive/items/1C1370877CDEA235!104/children
              * Authorization bearer token
              */
+            if (string.IsNullOrEmpty(fileId))
+            {
+                fileId = "root";
+            }
             string token = t as string;
 
             IList<FileInformation> fileList = null;

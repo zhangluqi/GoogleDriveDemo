@@ -37,10 +37,10 @@ namespace GoogleDriveDemo.View.Control.OneDrive
         private void Window_Load(object sender, RoutedEventArgs e)
         {
             _detailViewModel = new OneDriveDetailViewModel();
+            this.DataContext = _detailViewModel;
             fileTree.ItemsSource = _detailViewModel.DetailVM;
             fileListbox.ItemsSource = _detailViewModel.DetailVM;
             Progrecess.DataContext = _detailViewModel.Progrecess;
-            _detailViewModel = new OneDriveDetailViewModel();
             _detailViewModel.oneDriveCloud = cloudbase;
             _detailViewModel.Search(null);
         }
@@ -82,7 +82,7 @@ namespace GoogleDriveDemo.View.Control.OneDrive
             {
                 FileEntity fileEntity = e.NewValue as FileEntity;
                 _parentID = fileEntity.FileId;
-                if (!fileEntity.IsFile)
+                if (fileEntity.IsFile)
                 {
                     fileListbox.ItemsSource = fileEntity.ChildFileList;
                 }

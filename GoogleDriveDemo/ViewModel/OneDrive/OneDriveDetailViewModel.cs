@@ -2,6 +2,7 @@
 using GoogleDriveDemo.Util;
 using GoogleDriveDemo.ViewModel.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -54,9 +55,17 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
         {
             string fileId = selectedfileEntity != null ? selectedfileEntity.FileId : null;
             string parentId = selectedfileEntity != null ? selectedfileEntity.ParentID : "root";
-            
+            bool isFolder = selectedfileEntity != null ? selectedfileEntity.IsFile : false;
+
             IList<FileInformation> listFileInfo = null;
-            listFileInfo = CloudManager.Search(oneDriveCloud.CloudId,parentId);
+            if (isFolder)
+            {
+                listFileInfo = CloudManager.Search(oneDriveCloud.CloudId, fileId);
+            }
+            else
+            {
+                listFileInfo = CloudManager.Search(oneDriveCloud.CloudId, parentId);
+            }
             if (listFileInfo != null && listFileInfo.Count > 0)
             {
                 foreach (var item in listFileInfo)
@@ -71,12 +80,13 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
                             FileSize = item.FileSize.ToString(),
                             IsFile = item.IsFolder
                         };
+
                         System.Windows.Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
                             //root目录
                             if (selectedfileEntity == null)
                             {
-                                _detailVM.Add(fileEntity);
+                                DetailVM.Add(fileEntity);
                             }
                             else
                             {
@@ -86,7 +96,6 @@ namespace GoogleDriveDemo.ViewModel.OneDrive
                                 }
                                 ((ObservableCollection<FileEntity>)selectedfileEntity.ChildFileList).Add(fileEntity);
                             }
-
                         }));
                     }
                 }

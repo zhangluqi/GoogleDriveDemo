@@ -77,7 +77,11 @@ namespace OneDrive
             return isSuccess;
         }
 
-
+        /// <summary>
+        /// 搜寻文件夹
+        /// </summary>
+        /// <param name="fileid"></param>
+        /// <returns></returns>
         public override IList<FileInformation> Search(string fileid)
         {
             List<FileInformation> fileInfoList = new List<FileInformation>();

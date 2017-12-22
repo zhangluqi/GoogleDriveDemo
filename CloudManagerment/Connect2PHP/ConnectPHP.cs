@@ -108,13 +108,13 @@ namespace CloudManagerment.Connect2PHP
             try
             {
                 string realUrl = string.Format("{0}/{1}", url2, cloudId);
-                realUrl = Path.Combine(realUrl, "/refresh");
+                realUrl = realUrl + "/refresh";
 
                 clientNet.Headers.Add("accept", "application/json");
                 clientNet.Headers.Add("Client", "Cloud Drive/1.0.0");
                 clientNet.Headers.Add("Authorization", "Bearer " + userToken);
 
-                Stream st = clientNet.OpenRead(url1);
+                Stream st = clientNet.OpenRead(realUrl);
                 StreamReader sr = new StreamReader(st);
                 responseData = sr.ReadToEnd();
             }
